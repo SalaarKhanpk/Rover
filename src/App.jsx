@@ -89,6 +89,46 @@ const App = () => {
         }
       ];
     }
+    // Route 5: Red Line Metro - FULL ROUTE (VERIFIED - Just Ridden!)
+    else if ((fromLower.includes('saddar') || fromLower.includes('marrir')) && 
+             (toLower.includes('stock exchange') || toLower.includes('pims') || toLower.includes('faizabad') || toLower.includes('secretariat') || toLower.includes('parade'))) {
+      
+      // Determine destination and adjust route accordingly
+      let destination = 'Pak Secretariat';
+      let duration = 40;
+      let allStops = 'Saddar → Marrir Chowk → Liaquat Bagh → Committee Chowk → Waris Khan → Chandni Chowk → Rehmanabad → 6th Road → Khatam-e-Nabuwat → Chaman → Faizabad → Potohar → Khayaban-e-Johar → Ibn-e-Sina → PIMS → Stock Exchange → 7th Avenue → Shaheed-e-Millat → Parade Ground → Pak Secretariat';
+      
+      if (toLower.includes('stock exchange')) {
+        destination = 'Stock Exchange';
+        duration = 25;
+      } else if (toLower.includes('pims')) {
+        destination = 'PIMS Hospital';
+        duration = 20;
+      } else if (toLower.includes('faizabad')) {
+        destination = 'Faizabad';
+        duration = 15;
+      }
+      
+      sampleRoutes = [
+        {
+          id: 1,
+          totalTime: duration,
+          totalFare: 40,
+          steps: [
+            {
+              type: 'bus',
+              from: 'Saddar, Rawalpindi',
+              to: destination,
+              duration: duration,
+              route: 'Red Line Metrobus - ✓ VERIFIED (Ridden Today!)',
+              fare: 40,
+              frequency: 'Every 5-10 minutes',
+              stops: allStops
+            }
+          ]
+        }
+      ];
+    }
     // Route 4: Radio Pakistan to Chor Chowk (New Green Bus - Real Data)
     else if ((fromLower.includes('radio pakistan') || fromLower.includes('lane 3')) && 
              (toLower.includes('chor chowk') || toLower.includes('chor'))) {
@@ -285,7 +325,7 @@ const App = () => {
               </label>
               <input
                 type="text"
-                placeholder="e.g., Westridge 1, Radio Pakistan"
+                placeholder="e.g., Saddar, Westridge, Radio Pakistan"
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 value={from}
                 onChange={(e) => setFrom(e.target.value)}
@@ -299,7 +339,7 @@ const App = () => {
               </label>
               <input
                 type="text"
-                placeholder="e.g., F-6 Markaz, Chor Chowk, Raja Bazaar"
+                placeholder="e.g., Secretariat, F-6, PIMS, Chor Chowk"
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
                 value={to}
                 onChange={(e) => setTo(e.target.value)}
@@ -320,7 +360,8 @@ const App = () => {
           <div className="space-y-4">
             {routes.length === 0 ? (
               <div className="bg-white rounded-lg shadow-lg p-6 text-center text-gray-600">
-                No routes found. Try: Westridge to F-6, Radio Pakistan to Chor Chowk, or Radio Pakistan to Raja Bazaar
+                <p className="mb-2">No routes found for this combination yet.</p>
+                <p className="text-sm">Try: Saddar to Secretariat, Radio Pakistan to Chor Chowk, or Westridge to F-6</p>
               </div>
             ) : (
               routes.map((route) => (
@@ -378,7 +419,7 @@ const App = () => {
                                 <span>{step.frequency}</span>
                               </div>
                               {step.stops && (
-                                <p className="text-xs text-gray-400 mt-1">{step.stops}</p>
+                                <p className="text-xs text-gray-400 mt-1 break-words">{step.stops}</p>
                               )}
                             </div>
                           )}
@@ -394,7 +435,8 @@ const App = () => {
 
         <div className="mt-8 text-center text-sm text-gray-600 bg-white rounded-lg p-4 shadow">
           <p className="font-semibold mb-1">Rover - Beta Version</p>
-          <p>Routes verified by real users. Currently covering Rawalpindi-Islamabad area.</p>
+          <p>Routes verified by real riders. Rawalpindi-Islamabad coverage.</p>
+          <p className="text-xs mt-2">✓ = Ridden and verified by actual users</p>
         </div>
       </div>
     </div>
